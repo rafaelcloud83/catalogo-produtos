@@ -34,5 +34,6 @@ build/
 
 ### tirar depois do projeto pronto ###
 README.md
+/src/main/resources/import.sql
 /img/
 /doc/

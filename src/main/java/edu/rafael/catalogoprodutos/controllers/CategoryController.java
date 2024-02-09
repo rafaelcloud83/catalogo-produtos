@@ -1,6 +1,6 @@
 package edu.rafael.catalogoprodutos.controllers;
 
-import edu.rafael.catalogoprodutos.entities.Category;
+import edu.rafael.catalogoprodutos.dto.CategoryDto;
 import edu.rafael.catalogoprodutos.services.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +19,8 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Category>> findAll(){
-        List<Category> categories = categoryService.findAll();
+    public ResponseEntity<List<CategoryDto>> findAll(){
+        List<CategoryDto> categories = categoryService.findAll();
         return ResponseEntity.ok().body(categories);
     }
 }
