@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### tirar depois do projeto pronto ###
+README.md
+/img/
+/doc/
