@@ -3,9 +3,12 @@ package edu.rafael.catalogoprodutos.services;
 import edu.rafael.catalogoprodutos.dto.CategoryDto;
 import edu.rafael.catalogoprodutos.entities.Category;
 import edu.rafael.catalogoprodutos.repositories.CategoryRepository;
+import edu.rafael.catalogoprodutos.services.exceptions.DatabaseException;
 import edu.rafael.catalogoprodutos.services.exceptions.EntitiesNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -48,6 +51,18 @@ public class CategoryService {
             return new CategoryDto(categoryRepository.save(category));
         } catch (EntityNotFoundException e){
             throw new EntitiesNotFoundException("Id " + id + " não existe!!!");
+        }
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+        if (!categoryRepository.existsById(id)){
+            throw new EntitiesNotFoundException("Id " + id + " não existe!!!");
+        }
+        try {
+            categoryRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Falha de integridade referencial, essa categoria não pode ser deletada!!!");
         }
     }
 }
