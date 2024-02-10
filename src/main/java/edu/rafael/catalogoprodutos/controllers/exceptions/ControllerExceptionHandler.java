@@ -1,6 +1,6 @@
 package edu.rafael.catalogoprodutos.controllers.exceptions;
 
-import edu.rafael.catalogoprodutos.services.exceptions.EntityNotFoundException;
+import edu.rafael.catalogoprodutos.services.exceptions.EntitiesNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +11,8 @@ import java.time.Instant;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request){
+    @ExceptionHandler(EntitiesNotFoundException.class)
+    public ResponseEntity<StandardError> entityNotFound(EntitiesNotFoundException e, HttpServletRequest request){
         StandardError error = new StandardError();
         error.setTimestamp(Instant.now());
         error.setStatus(HttpStatus.NOT_FOUND.value());
