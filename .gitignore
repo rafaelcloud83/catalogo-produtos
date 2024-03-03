@@ -36,5 +36,5 @@ build/
 README.md
 #Insomnia.json
 /src/main/resources/import.sql
-/img/
+#/img/
 /doc/
