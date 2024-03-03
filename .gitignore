@@ -35,6 +35,6 @@ build/
 ### tirar depois do projeto pronto ###
 README.md
 #Insomnia.json
-/src/main/resources/import.sql
+#/src/main/resources/import.sql
 #/img/
 /doc/
