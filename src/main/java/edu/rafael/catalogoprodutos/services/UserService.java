@@ -3,6 +3,7 @@ package edu.rafael.catalogoprodutos.services;
 import edu.rafael.catalogoprodutos.dto.RoleDto;
 import edu.rafael.catalogoprodutos.dto.UserDto;
 import edu.rafael.catalogoprodutos.dto.UserInsertDto;
+import edu.rafael.catalogoprodutos.dto.UserUpdateDto;
 import edu.rafael.catalogoprodutos.entities.Role;
 import edu.rafael.catalogoprodutos.entities.User;
 import edu.rafael.catalogoprodutos.repositories.RoleRepository;
@@ -54,7 +55,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto update(Long id, UserDto userDto) {
+    public UserDto update(Long id, UserUpdateDto userDto) {
         try {
             User user = userRepository.getReferenceById(id);
             copyDtoToEntity(userDto, user);

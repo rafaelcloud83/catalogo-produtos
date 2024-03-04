@@ -2,6 +2,7 @@ package edu.rafael.catalogoprodutos.controllers;
 
 import edu.rafael.catalogoprodutos.dto.UserDto;
 import edu.rafael.catalogoprodutos.dto.UserInsertDto;
+import edu.rafael.catalogoprodutos.dto.UserUpdateDto;
 import edu.rafael.catalogoprodutos.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -42,9 +43,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto){
-        userDto = userService.update(id, userDto);
-        return ResponseEntity.ok().body(userDto);
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDto userDto){
+        UserDto newUserDto = userService.update(id, userDto);
+        return ResponseEntity.ok().body(newUserDto);
     }
 
     @DeleteMapping("/{id}")
