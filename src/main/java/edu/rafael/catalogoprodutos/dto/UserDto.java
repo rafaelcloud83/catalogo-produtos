@@ -1,14 +1,22 @@
 package edu.rafael.catalogoprodutos.dto;
 
 import edu.rafael.catalogoprodutos.entities.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class UserDto {
     private Long id;
+    @NotBlank(message = "Campo obrigatório")
+    @Size(min = 3, max = 50, message = "Deve ter entre 3 e 50 caracteres")
     private String firstName;
+    @NotBlank(message = "Campo obrigatório")
+    @Size(min = 3, max = 50, message = "Deve ter entre 3 e 50 caracteres")
     private String lastName;
+    @Email(message = "Entre com email válido")
     private String email;
 
     Set<RoleDto> roles = new HashSet<>();

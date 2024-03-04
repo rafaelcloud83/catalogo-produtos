@@ -3,6 +3,7 @@ package edu.rafael.catalogoprodutos.controllers;
 import edu.rafael.catalogoprodutos.dto.UserDto;
 import edu.rafael.catalogoprodutos.dto.UserInsertDto;
 import edu.rafael.catalogoprodutos.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDto> createUser(@RequestBody UserInsertDto userDto){
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserInsertDto userDto){
         UserDto newUserDto = userService.save(userDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newUserDto.getId()).toUri();
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto){
         userDto = userService.update(id, userDto);
         return ResponseEntity.ok().body(userDto);
     }

@@ -2,6 +2,10 @@ package edu.rafael.catalogoprodutos.dto;
 
 import edu.rafael.catalogoprodutos.entities.Category;
 import edu.rafael.catalogoprodutos.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -10,10 +14,15 @@ import java.util.Set;
 
 public class ProductDto {
     private Long id;
+    @NotBlank(message = "Campo obrigatório")
+    @Size(min = 3, max = 50, message = "Deve ter entre 3 e 50 caracteres")
     private String name;
+    @NotBlank(message = "Campo obrigatório")
     private String description;
+    @Positive(message = "O preço de ser um valor positivo")
     private Double price;
     private String imgUrl;
+    @PastOrPresent(message = "A data não pode ser futura")
     private Instant date;
 
     private List<CategoryDto> categories = new ArrayList<>();

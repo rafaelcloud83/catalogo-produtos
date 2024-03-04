@@ -2,6 +2,7 @@ package edu.rafael.catalogoprodutos.controllers;
 
 import edu.rafael.catalogoprodutos.dto.ProductDto;
 import edu.rafael.catalogoprodutos.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto){
         productDto = productService.save(productDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(productDto.getId()).toUri();
@@ -40,7 +41,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto){
         productDto = productService.update(id, productDto);
         return ResponseEntity.ok().body(productDto);
     }

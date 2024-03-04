@@ -1,6 +1,9 @@
 package edu.rafael.catalogoprodutos.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class UserInsertDto extends UserDto{
+    @NotBlank(message = "Campo obrigatório")
     private String password;
 
     UserInsertDto(){

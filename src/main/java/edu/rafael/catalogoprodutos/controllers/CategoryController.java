@@ -2,6 +2,7 @@ package edu.rafael.catalogoprodutos.controllers;
 
 import edu.rafael.catalogoprodutos.dto.CategoryDto;
 import edu.rafael.catalogoprodutos.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class CategoryController {
     }
 
     @PostMapping()
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto){
         categoryDto = categoryService.save(categoryDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(categoryDto.getId()).toUri();
@@ -40,7 +41,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDto categoryDto){
         categoryDto = categoryService.update(id, categoryDto);
         return ResponseEntity.ok().body(categoryDto);
     }
