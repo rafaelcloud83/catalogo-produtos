@@ -3,14 +3,13 @@ package edu.rafael.catalogoprodutos.controllers;
 import edu.rafael.catalogoprodutos.dto.CategoryDto;
 import edu.rafael.catalogoprodutos.services.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
@@ -22,8 +21,8 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<CategoryDto>> findAll(Pageable pageable){
-        Page<CategoryDto> categories = categoryService.findAllPaged(pageable);
+    public ResponseEntity<List<CategoryDto>> findAll(){
+        List<CategoryDto> categories = categoryService.findAll();
         return ResponseEntity.ok().body(categories);
     }
 

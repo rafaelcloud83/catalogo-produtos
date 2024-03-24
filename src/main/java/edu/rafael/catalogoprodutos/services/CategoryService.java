@@ -7,12 +7,11 @@ import edu.rafael.catalogoprodutos.services.exceptions.DatabaseException;
 import edu.rafael.catalogoprodutos.services.exceptions.EntitiesNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,9 +23,9 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CategoryDto> findAllPaged(Pageable pageable){
-        Page<Category> categories = categoryRepository.findAll(pageable);
-        return categories.map(x -> new CategoryDto(x));
+    public List<CategoryDto> findAll(){
+        List<Category> categories = categoryRepository.findAll();
+        return categories.stream().map(CategoryDto::new).toList();
     }
 
     @Transactional(readOnly = true)

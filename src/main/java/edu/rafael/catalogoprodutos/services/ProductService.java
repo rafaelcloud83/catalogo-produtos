@@ -4,18 +4,23 @@ import edu.rafael.catalogoprodutos.dto.CategoryDto;
 import edu.rafael.catalogoprodutos.dto.ProductDto;
 import edu.rafael.catalogoprodutos.entities.Category;
 import edu.rafael.catalogoprodutos.entities.Product;
+import edu.rafael.catalogoprodutos.projections.ProductProjetion;
 import edu.rafael.catalogoprodutos.repositories.CategoryRepository;
 import edu.rafael.catalogoprodutos.repositories.ProductRepository;
 import edu.rafael.catalogoprodutos.services.exceptions.DatabaseException;
 import edu.rafael.catalogoprodutos.services.exceptions.EntitiesNotFoundException;
+import edu.rafael.catalogoprodutos.util.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,9 +34,17 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDto> findAllPaged(Pageable pageable){
-        Page<Product> products = productRepository.findAll(pageable);
-        return products.map(x -> new ProductDto(x));
+    public Page<ProductDto> findAllPaged(String name, String categoryId, Pageable pageable){
+        List<Long> categoryIds = Arrays.asList();
+        if (!"0".equals(categoryId)){
+            categoryIds = Arrays.stream(categoryId.split(",")).map(Long::parseLong).toList();
+        }
+        Page<ProductProjetion> page = productRepository.searchProducts(categoryIds,name, pageable);
+        List<Long> productIds = page.map(ProductProjetion::getId).toList();
+        List<Product> products = productRepository.searchProductWithCategories(productIds);
+        products = (List<Product>) Utils.replace(page.getContent(), products);
+        List<ProductDto> dtos = products.stream().map(p -> new ProductDto(p, p.getCategories())).toList();
+        return new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
     }
 
     @Transactional(readOnly = true)
@@ -67,7 +80,7 @@ public class ProductService {
         try {
             productRepository.deleteById(id);
         } catch (DataIntegrityViolationException e){
-            throw new DatabaseException("Falha de integridade referencial, esse produto não pode ser deletada!!!");
+            throw new DatabaseException("Falha de integridade referencial, esse produto não pode ser deletado!!!");
         }
     }
 
