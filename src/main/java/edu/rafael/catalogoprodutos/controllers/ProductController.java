@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -32,6 +33,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productDto);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @PostMapping()
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto){
         productDto = productService.save(productDto);
@@ -40,12 +42,14 @@ public class ProductController {
         return ResponseEntity.created(uri).body(productDto);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto){
         productDto = productService.update(id, productDto);
         return ResponseEntity.ok().body(productDto);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long id){
         productService.delete(id);
