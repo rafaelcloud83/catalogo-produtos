@@ -37,7 +37,6 @@ public class UserController {
         return ResponseEntity.ok().body(userDto);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping()
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserInsertDto userDto){
         UserDto newUserDto = userService.save(userDto);
