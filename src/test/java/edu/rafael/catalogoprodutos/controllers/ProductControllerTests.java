@@ -12,12 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -37,7 +34,6 @@ public class ProductControllerTests {
     private ObjectMapper mapper;
 
     private ProductDto productDto;
-    private PageImpl<ProductDto> page;
     private long existingId;
     private long nonExistingId;
 
@@ -46,9 +42,6 @@ public class ProductControllerTests {
         existingId = 1L;
         nonExistingId = 100L;
         productDto = Factory.createProductDto();
-        page = new PageImpl<>(List.of(productDto));
-
-        Mockito.when(productService.findAllPaged(any())).thenReturn(page);
 
         Mockito.when(productService.findById(existingId)).thenReturn(productDto);
         Mockito.when(productService.findById(nonExistingId)).thenThrow(EntitiesNotFoundException.class);

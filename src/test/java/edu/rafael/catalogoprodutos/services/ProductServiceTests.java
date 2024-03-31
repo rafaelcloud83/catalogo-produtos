@@ -18,9 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -100,14 +98,6 @@ public class ProductServiceTests {
         Assertions.assertThrows(EntitiesNotFoundException.class, () -> {
             productService.update(nonExistingId, prodDto);
         });
-    }
-
-    @Test
-    void findAllPagedShouldReturnPage(){
-        Pageable pageable = PageRequest.of(0,10);
-        Page<ProductDto> dtoPage = productService.findAllPaged(pageable);
-
-        Assertions.assertNotNull(dtoPage);
     }
 
     @Test

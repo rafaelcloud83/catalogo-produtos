@@ -44,7 +44,7 @@ public class ProductControllerIntegration {
         nonExistingId = 100L;
         countTotalProducts = 25L;
 
-        username = "rafael@gmail.com";
+        username = "maria@gmail.com";
         password = "123456";
         bearerToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
     }
