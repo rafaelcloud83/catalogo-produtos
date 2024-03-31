@@ -31,23 +31,31 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, AuthService authService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authService = authService;
     }
 
     @Transactional(readOnly = true)
     public Page<UserDto> findAllPaged(Pageable pageable){
         Page<User> users = userRepository.findAll(pageable);
-        return users.map(x -> new UserDto(x));
+        return users.map(UserDto::new);
     }
 
     @Transactional(readOnly = true)
     public UserDto findById(Long id) {
         Optional<User> optional = userRepository.findById(id);
         User user = optional.orElseThrow(() -> new EntitiesNotFoundException("Entidade não encontrada!!!"));
+        return new UserDto(user);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDto findUserLogged() {
+        User user = authService.authenticated();
         return new UserDto(user);
     }
 
