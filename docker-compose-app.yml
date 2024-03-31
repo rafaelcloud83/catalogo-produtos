@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  pg-docker:
+  db:
     image: postgres:16-alpine
     container_name: dev-postgresql
     environment:
@@ -11,3 +11,10 @@ services:
       - "5432:5432"
     volumes:
       - ./.data/postgresql/data:/var/lib/postgresql/data
+  api:
+    image: catalogoproduto
+    container_name: dev-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
